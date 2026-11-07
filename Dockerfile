@@ -5,6 +5,8 @@ RUN npm ci --omit=dev --ignore-scripts && npm i --no-save typescript@5.9.3
 COPY tsconfig.json ./
 COPY src ./src
 RUN npx tsc -p tsconfig.json
+# TypeScript is checked from a temporary folder created here: the service user must be able to write it.
+RUN chown node:node /app
 USER node
 ENV HOST=0.0.0.0 PORT=8790
 EXPOSE 8790
